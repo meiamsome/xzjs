@@ -44,7 +44,9 @@ CRC.prototype.calculate = function(buffer) {
     var lookup = this.table[i ^ crc[this.length]];
     utils.buffer_xor(lookup, crc.slice(0, -1)).copy(crc, 1);
   }
-  return utils.buffer_xor_inplace(Buffer.alloc(this.length, 0xFF), crc.slice(1));
+  return Buffer.from(new Array(this.length).fill(null).map(function(_, i) {
+    return crc[crc.length - 1 - i] ^ 0xFF;
+  }));
 }
 
 CRC.prototype.verify = function(buffer) {
