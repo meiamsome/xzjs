@@ -12,7 +12,24 @@ var test_vectors = [
 });
 
 describe('utils', function() {
+  describe('buffer_xor_inplace', function() {
+    it('returns the first buffer', function() {
+      var buf1 = Buffer.alloc(0);
+      var buf2 = Buffer.alloc(0);
+      assert.equal(utils.buffer_xor_inplace(buf1, buf2), buf1);
+      assert.notEqual(utils.buffer_xor_inplace(buf1, buf2), buf2);
+    });
+  });
+
   describe('buffer_xor', function() {
+    it('returns a new buffer', function() {
+      var buf1 = Buffer.alloc(0);
+      var buf2 = Buffer.alloc(0);
+      var buf3 = utils.buffer_xor(buf1, buf2);
+      assert.notEqual(buf1, buf3);
+      assert.notEqual(buf2, buf3);
+    });
+
     it('requires correct sizes', function() {
       for(var i = 0; i < 10; i++) {
         var buf1 = Buffer.alloc(i);
